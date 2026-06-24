@@ -1,0 +1,48 @@
+body {
+    background-color: lightgreen;
+    margin: 0;
+}
+
+.nav-container {
+    background-color: rgb(246, 246, 99);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-left: 1rem;
+}
+
+img {
+    height: 4rem;
+}
+
+.nav-container a {
+    color: crimson;
+    text-decoration: none;
+    font-size: 2rem;
+}
+
+a {
+    color: rgb(2, 83, 195);
+}
+
+a:hover {
+    color: rgb(176, 4, 145);
+    text-decoration: underline;
+}
+
+.messages {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: lightgoldenrodyellow;
+}
+
+.nav-btn-link {
+    color: crimson;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2rem;
+}

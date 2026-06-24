@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menubalk</title>
+    <link rel="stylesheet" href="menu.css">
+</head>
+
+<body>
+    <nav class="nav-container">
+        <p><img src="{% static "base/img/fatyoshi.png" %}" alt="Fat yoshi"></p>
+
+        {% comment %} Alle inlog gerelateerde dingen zijn even gecomment zodat het ff werkt zonder inloggen {% endcomment %}
+        {% comment %} {% if user.is_authenticated %} {% endcomment %}
+            <a href="{% url 'index' %}">Yoshi</a>
+            <a href="{% url 'index'%}">Yoshi</a>
+            <a href="{% url 'index' %}">Yoshi</a>
+            <a href="{% url 'index' %}">Yoshi</a>
+            {% comment %} {% if User.is_staff %} {% endcomment %}
+                <a href="{% url 'index' %}">Approve Yoshi's</a>
+            {% comment %} {% endif %} {% endcomment %}
+            {% comment %} <form action="{% url 'logout' %}", method="post", class="nav-container">
+                {% csrf_token %}
+                <button type = "submit" class="nav-btn-link">
+                    Logout {{ user.get_username }}
+                </button>
+            </form> {% endcomment %}
+        {% comment %} {% else %} {% endcomment %}
+            <a href="{% url 'index' %}" class="nav-item">Login</a>
+            <a href="{% url 'index' %}" class="nav-item">Register</a>
+        {% comment %} {% endif %} {% endcomment %}
+    </nav>
+</body>
+
+</html>
