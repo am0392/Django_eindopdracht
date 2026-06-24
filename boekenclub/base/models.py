@@ -33,3 +33,9 @@ class ReadingSession(models.Model):
     Score = models.IntegerField()
     def __str__(self):
         return f"Book: {Book.Name}, Score: {self.Score}, Read by: {self.User.get_username()}"
+
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
