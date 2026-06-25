@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import ReadingSessionForm
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
 def index(request):
     return render(request, "base/index.html")
 
@@ -26,3 +26,22 @@ def sessionform(request):
     else:
         form = ReadingSessionForm()
     return render(request, 'base/reading_session_form.html', {'form': form})
+
+
+def edit_session(request, pk):
+    session = ReadingSession.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ReadingSessionForm(request.POST, instance=session)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Reading session updated successfully.')
+            return redirect('RecentSessions')
+    else:
+        form = ReadingSessionForm(instance=session)
+    context = {'form': form, 'session': session}
+    return render(request, 'base/reading_session_form.html', context)
+
+def session_list(request):
+    sessions = ReadingSession.objects.filter(User=request.user)
+    context = {"sessions": sessions}
+    return render(request, "base/session_list.html", context)

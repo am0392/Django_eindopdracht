@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1>My Reading Sessions</h1>
+
+{% for session in sessions %}
+<div>
+    <p>Book: {{ session.Book }}</p>
+    <p>Date: {{ session.Date }}</p>
+    <p>Score: {{ session.Score }}</p>
+    <a href="{% url 'edit_session' session.pk %}">Edit</a>
+</div>
+<hr>
+{% empty %}
+<p>No reading sessions found.</p>
+{% endfor %}
+
+{% endblock %}
