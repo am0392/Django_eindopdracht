@@ -28,7 +28,7 @@ def sessionform(request):
             return redirect('RecentSessions')
     else:
         form = ReadingSessionForm()
-    return render(request, 'base/reading_session_form.html', {'form': form})
+    return render(request, 'base/session.html', {'form': form})
 
 
 def edit_session(request, pk):

@@ -13,12 +13,10 @@ class ReadingSessionForm(forms.ModelForm):
             'Score': forms.NumberInput(attrs={'min': 1, 'max': 5}),
         }
 
-
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
-
 
 class ProfileForm(forms.ModelForm):
     class Meta:
