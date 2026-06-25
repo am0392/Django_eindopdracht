@@ -1,3 +1,4 @@
+from .models import ReadingSession
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import ReadingSessionForm
@@ -6,6 +7,11 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     return render(request, "base/index.html")
+
+def newsfeed(request):
+    sessions = ReadingSession.objects.all()
+    context = {"sessions": sessions}
+    return render(request, "base/newsfeed.html", context)
 
 @login_required
 def sessionform(request):

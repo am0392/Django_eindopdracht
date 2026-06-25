@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path('reading-session/', views.sessionform, name='reading_session'),
+    path("newsfeed/", views.newsfeed, name="newsfeed")
 ]
