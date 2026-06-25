@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import ReadingSessionForm
 from django.contrib.auth.decorators import login_required
+from .forms import RegisterForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 
 def index(request):
@@ -45,3 +48,17 @@ def session_list(request):
     sessions = ReadingSession.objects.filter(User=request.user)
     context = {"sessions": sessions}
     return render(request, "base/session_list.html", context)
+
+
+def register(request):
+    if request.method == "POST":
+        form=UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # log the user in and redirect to index
+            login(request, user)
+            return redirect("index")
+    else:
+        form = UserCreationForm()
+    context = {"form": form}
+    return render(request, "registration/register.html", context)
