@@ -35,6 +35,9 @@
             <a href="{% url 'index' %}" class="nav-item">Register</a>
         {% comment %} {% endif %} {% endcomment %}
     </nav>
+
+    {% block content %}
+    {% endblock %}
 </body>
 
 </html>
