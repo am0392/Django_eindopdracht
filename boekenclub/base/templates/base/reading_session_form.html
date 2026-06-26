@@ -6,7 +6,10 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
+    <input type="submit" value="Save">
+    {% if edit %}
+        <input type="submit" name="Delete" value="Delete">
+    {% endif %}
     <a href="{% url 'RecentSessions' %}">Cancel</a>
 </form>
 

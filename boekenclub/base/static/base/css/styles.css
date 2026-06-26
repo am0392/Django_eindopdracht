@@ -31,10 +31,25 @@ a:hover {
 }
 
 .messages {
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    background-color: lightgoldenrodyellow;
+    list-style: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.messages li.success {
+    background-color: cyan;
+    color: black;
+}
+
+.messages li.error {
+    background-color: salmon;
+    color: black;
 }
 
 .nav-btn-link {
