@@ -1,11 +1,12 @@
 from .models import ReadingSession
+from .forms import ReadingSessionForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .forms import ReadingSessionForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from .forms import ProfileForm
 
 
 def index(request):
@@ -49,6 +50,10 @@ def session_list(request):
     context = {"sessions": sessions}
     return render(request, "base/session_list.html", context)
 
+def profile(requests):
+    form = profile()
+    context = {"form": form}
+
 
 def register(request):
     if request.method == "POST":
@@ -62,3 +67,18 @@ def register(request):
         form = UserCreationForm()
     context = {"form": form}
     return render(request, "registration/register.html", context)
+
+@login_required
+def profile(request):
+    profile = request.user.profile
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Ok saved")
+            return redirect("index")
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, "base/profile.html", {"form": form})

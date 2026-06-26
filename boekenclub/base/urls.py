@@ -9,6 +9,7 @@ urlpatterns = [
     path('edit-session/<int:pk>/', views.edit_session, name='edit_session'),
     path("", include('django.contrib.auth.urls')),
     path("register/", views.register, name="register"),
-    
+    path("profile/", views.profile, name="profile")
+
     #path("nameform/", views.nameForm, name="nameform")
 ]

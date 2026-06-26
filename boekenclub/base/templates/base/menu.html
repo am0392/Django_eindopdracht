@@ -17,6 +17,7 @@
 
         {% comment %} Alle inlog gerelateerde dingen zijn even gecomment zodat het ff werkt zonder inloggen {% endcomment %}
         {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">Profile</a>
             <a href="{% url 'newsfeed' %}">Newsfeed</a>
             <a href="{% url 'index'%}">Add book</a>  
             <a href="{% url 'RecentSessions' %}">Recent sessions</a>
