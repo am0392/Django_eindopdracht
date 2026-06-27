@@ -1,5 +1,5 @@
 from django import forms
-from .models import ReadingSession
+from .models import ReadingSession, Book
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
@@ -25,3 +25,8 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             "DateOfBirth": forms.DateInput(attrs={"type": "date"})
         }
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['Name', 'PublicationYear', 'Genre']

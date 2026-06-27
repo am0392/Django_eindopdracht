@@ -1,8 +1,9 @@
-from .models import ReadingSession
-from .forms import ReadingSessionForm
+from .models import ReadingSession, Book
+from .forms import ReadingSessionForm, BookForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from .forms import RegisterForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -58,10 +59,6 @@ def session_list(request):
     context = {"sessions": sessions}
     return render(request, "base/session_list.html", context)
 
-def profile(requests):
-    form = profile()
-    context = {"form": form}
-
 
 def register(request):
     if request.method == "POST":
@@ -90,3 +87,45 @@ def profile(request):
         form = ProfileForm(instance=profile)
 
     return render(request, "base/profile.html", {"form": form})
+
+@login_required
+def new_book(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book = form.save(commit=False)
+            if request.user.is_staff:
+                book.Approved = True
+                book.ApprovedBy = request.user
+
+            book.save()
+
+            messages.success(request, "Book added successfully")
+            return redirect("new_book")
+    else:
+        form = BookForm()
+
+    context = {"form": form}
+    return render(request, "base/newbook.html", context)
+
+@staff_member_required
+def unapproved_books(request):
+    books = Book.objects.filter(Approved=False)
+    context = {"books": books}
+    return render(request, "base/unapproved_books.html", context)
+
+@staff_member_required
+def approve_book(request, pk):
+    book = Book.objects.get(pk=pk)
+    book.Approved=True
+    book.ApprovedBy = request.user
+    book.save()
+    messages.success(request, "Book approved")
+    return redirect("unapproved_books")
+
+@staff_member_required
+def deny_book(request, pk):
+    book = Book.objects.get(pk=pk)
+    book.delete()
+    messages.success(request, "Book denied")
+    return redirect("unapproved_books")

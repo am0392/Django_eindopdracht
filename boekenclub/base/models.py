@@ -19,7 +19,7 @@ class Book(models.Model):
     Name = models.CharField(max_length=30, blank=False, unique=True)
     PublicationYear = models.IntegerField(blank=False)
     Genre = models.CharField(max_length=30, blank=True)
-    Approved = models.BooleanField()
+    Approved = models.BooleanField(default=False)
     ApprovedBy = models.ForeignKey(User, on_delete=models.CASCADE,
                                     related_name='ApprovedBy', null=True, blank=True)
     def __str__(self):
@@ -37,7 +37,7 @@ class ReadingSession(models.Model):
         unique_together = ('Book', 'User', 'Date')
         
     def __str__(self):
-        return f"Book: {Book.Name}, Score: {self.Score}, Read by: {self.User.get_username()}"
+        return f"Book: {self.Book.Name}, Score: {self.Score}, Read by: {self.User.get_username()}"
 
 
 @receiver(post_save, sender=User)
