@@ -23,6 +23,7 @@
             <a href="{% url 'reading_session' %}">Add session</a>
             {% if user.is_staff %}
                 <a href="{% url 'unapproved_books' %}">Approve books</a>
+                <a href="{% url 'newsfeed' %}">All sessions</a>
             {% endif %}
             
             <form action="{% url 'logout' %}" method="post" class="nav-item">

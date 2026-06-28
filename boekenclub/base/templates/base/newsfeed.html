@@ -8,6 +8,12 @@
         <strong>Score: </strong> {{ session.Score }}<br>
         <strong>User: </strong> {{ session.User.username }}<br>
         <strong>Date: </strong> {{ session.Date }}<br>
+        {% if user.is_staff %}
+        <form action="{% url 'delete_session' session.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" name="Delete">Delete</button>
+        </form>
+        {% endif %}
     </div>
     <hr>
 {% empty %}

@@ -129,3 +129,10 @@ def deny_book(request, pk):
     book.delete()
     messages.success(request, "Book denied")
     return redirect("unapproved_books")
+
+@staff_member_required
+def delete_session(request, pk):
+    session = ReadingSession.objects.get(pk=pk)
+    session.delete()
+    messages.success(request, "Session deleted")
+    return redirect("newsfeed")
