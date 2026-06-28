@@ -3,10 +3,9 @@
 {% block content %}
     <h1>All reading sessions</h1>
     {% for session in sessions %}
-        <strong>Book: </strong> {{ session.Book.Name }}<br>
+        <strong>Book: </strong> <a href="{% url 'book_details' session.Book.pk %}"> {{ session.Book.Name }} </a><br>
         <strong>Score: </strong> {{ session.Score }}<br>
         <strong>User: </strong> {{ session.User.username }}<br>
-        <strong>Date: </strong> {{ session.Date }}<br>
-        {% comment %} <a href="{% url 'edit_distance' distance.pk %}">Edit</a><br><br> {% endcomment %}
+        <strong>Date: </strong> {{ session.Date }}<br><br>
     {% endfor %}
 {% endblock content %}

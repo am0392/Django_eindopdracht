@@ -1,14 +1,13 @@
 from .models import ReadingSession, Book
-from .forms import ReadingSessionForm, BookForm
+from .forms import ReadingSessionForm, BookForm, ProfileForm, RegisterForm
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import RegisterForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .forms import ProfileForm
 from django.db import IntegrityError
+from django.db.models import Avg
 
 
 def index(request):
@@ -129,3 +128,15 @@ def deny_book(request, pk):
     book.delete()
     messages.success(request, "Book denied")
     return redirect("unapproved_books")
+
+def book_details(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    reading_sessions = ReadingSession.objects.filter(Book=book)
+    times_read = reading_sessions.count()
+    average_score = reading_sessions.aggregate(avg_score=Avg("Score"))["avg_score"]
+    context = {
+        "book": book,
+        "times_read": times_read,
+        "average_score": average_score,
+    }
+    return render(request, "base/bookdetails.html", context)
