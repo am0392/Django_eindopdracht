@@ -12,6 +12,9 @@ class ReadingSessionForm(forms.ModelForm):
             'Date': forms.DateInput(attrs={'type': 'date'}),
             'Score': forms.NumberInput(attrs={'min': 1, 'max': 5}),
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['Book'].queryset = Book.objects.filter(Approved=True)
 
 class RegisterForm(UserCreationForm):
     class Meta:
