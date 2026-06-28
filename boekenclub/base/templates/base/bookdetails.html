@@ -7,4 +7,5 @@
     <strong>Genre: </strong> {{ book.Genre }}<br><br>
     <strong>Times read: </strong> {{ times_read }}<br>
     <strong>Average score: </strong> {{ average_score }}<br>
+    <a href="{% url 'reading_session' %}?book={{ book.pk }}">Add reading session</a>
 {% endblock content %}

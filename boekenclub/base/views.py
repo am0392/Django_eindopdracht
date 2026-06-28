@@ -32,7 +32,9 @@ def sessionform(request):
             except IntegrityError:
                 messages.error(request, 'You already have a reading session for this book on this date.')
     else:
-        form = ReadingSessionForm()
+        book_pk = request.GET.get('book')
+        initial = {'Book': book_pk} if book_pk else {}
+        form = ReadingSessionForm(initial=initial)
     return render(request, 'base/session.html', {'form': form})
 
 
