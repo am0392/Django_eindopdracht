@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <h1>Unapproved books</h1>
+    {% for book in books %}
+        <strong>Name: </strong> {{ book.Name }}<br>
+
+        <strong>Publication year: </strong> {{ book.PublicationYear }}<br>
+
+        <strong>Genre: </strong> {{ book.Genre }}<br>
+
+        <a href="{% url 'approve_book' book.pk %}">Approve</a><br>
+        <a href="{% url 'deny_book' book.pk %}">Deny</a><br><br>
+
+        
+
+    {% endfor %}
+{% endblock content %} 
