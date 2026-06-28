@@ -15,22 +15,16 @@
     <nav class="nav-container">
         <p><img src="{% static "base/img/fatyoshi.png" %}" alt="Fat yoshi"></p>
 
-        {% comment %} Alle inlog gerelateerde dingen zijn even gecomment zodat het ff werkt zonder inloggen {% endcomment %}
         {% if user.is_authenticated %}
             <a href="{% url 'profile' %}">Profile</a>
             <a href="{% url 'newsfeed' %}">Newsfeed</a>
-            <a href="{% url 'index'%}">Add book</a>  
+            <a href="{% url 'new_book'%}">Add book</a>  
             <a href="{% url 'RecentSessions' %}">Recent sessions</a>
             <a href="{% url 'reading_session' %}">Add session</a>
-            {% comment %} {% if User.is_staff %} {% endcomment %}
-            {% comment %} <a href="{% url 'index' %}">Approve Yoshi's</a> #for admin only {% comment %} 
-            {% comment %} {% endif %} {% endcomment %}
-            {% comment %} <form action="{% url 'logout' %}", method="post", class="nav-container">
-                {% csrf_token %}
-                <button type = "submit" class="nav-btn-link">
-                    Logout {{ user.get_username }}
-                    </button>
-                    </form> {% endcomment %}
+            {% if user.is_staff %}
+                <a href="{% url 'unapproved_books' %}">Approve books</a>
+            {% endif %}
+            
             <form action="{% url 'logout' %}" method="post" class="nav-item">
                 {% csrf_token %}
                 <button type="submit" class="nav-btn-link">
