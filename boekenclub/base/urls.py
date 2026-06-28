@@ -9,6 +9,7 @@ urlpatterns = [
     path('recent-sessions/', views.session_list, name='RecentSessions'),
     path('edit-session/<int:pk>/', views.edit_session, name='edit_session'),
     path("register/", views.register, name="register"),
+    path("profile_form/", views.profile_form, name="profile_form"),
     path("profile/", views.profile, name="profile"),
     path("newbook/", views.new_book, name="new_book"),
     path("unapproved_books/", views.unapproved_books, name="unapproved_books"),

@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .forms import ProfileForm
 from django.db import IntegrityError
+from .models import Profile
 
 
 def index(request):
@@ -72,9 +73,16 @@ def register(request):
         form = UserCreationForm()
     context = {"form": form}
     return render(request, "registration/register.html", context)
-
+ 
 @login_required
 def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    context = {"profile": profile}
+    return render(request, "base/profile.html", context)
+
+
+@login_required
+def profile_form(request):
     profile = request.user.profile
 
     if request.method == "POST":
@@ -86,7 +94,7 @@ def profile(request):
     else:
         form = ProfileForm(instance=profile)
 
-    return render(request, "base/profile.html", {"form": form})
+    return render(request, "base/profile_form.html", {"form": form})
 
 @login_required
 def new_book(request):
