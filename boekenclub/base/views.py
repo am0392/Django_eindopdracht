@@ -149,3 +149,4 @@ def book_details(request, pk):
         "average_score": average_score,
     }
     return render(request, "base/bookdetails.html", context)
+
