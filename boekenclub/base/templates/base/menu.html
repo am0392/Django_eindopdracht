@@ -32,6 +32,7 @@
                     Logout {{ user.username}}
                 </button>
             </form>
+            <a href="{% url 'change_password' %}">Change password</a>
          {% else %}
             <a href="{% url 'newsfeed' %}" class="nav-item">Newsfeed</a>
             <a href="{% url 'login' %}" class="nav-item">Login</a>
