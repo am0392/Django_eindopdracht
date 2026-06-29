@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h1>Reading sessions of {{ profile_user.username }}</h1>
+
+{% for session in sessions %}
+<div>
+    <p>Book: {{ session.Book }}</p>
+    <p>Date: {{ session.Date }}</p>
+    <p>Score: {{ session.Score }}</p>
+</div>
+<hr>
+{% empty %}
+<p>This user has no reading sessions yet.</p>
+{% endfor %}
+
+{% endblock %}

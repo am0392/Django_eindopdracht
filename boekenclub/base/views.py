@@ -10,6 +10,7 @@ from django.db import IntegrityError
 from .models import Profile
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
 from django.db.models import Avg
 
 
@@ -175,4 +176,13 @@ def book_details(request, pk):
         "average_score": average_score,
     }
     return render(request, "base/bookdetails.html", context)
+
+def user_sessions(request, user_id):
+    profile_user = get_object_or_404(User, pk=user_id)
+    sessions = ReadingSession.objects.filter(User=profile_user)
+    context = {
+        "profile_user": profile_user,
+        "sessions": sessions
+    }
+    return render(request, "base/user_sessions.html", context)
 

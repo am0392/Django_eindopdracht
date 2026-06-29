@@ -6,7 +6,7 @@
     <div>
         <strong>Book: </strong> <a href="{% url 'book_details' session.Book.pk %}"> {{ session.Book.Name }} </a><br>
         <strong>Score: </strong> {{ session.Score }}<br>
-        <strong>User: </strong> {{ session.User.username }}<br>
+        <strong>User: </strong> <a href="{% url 'user_sessions' session.User.pk %}"> {{ session.User.username }}</a><br>
         <strong>Date: </strong> {{ session.Date }}<br>
         {% if user.is_staff %}
         <form action="{% url 'delete_session' session.pk %}" method="post">
