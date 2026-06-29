@@ -1,5 +1,6 @@
 from . import views
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -9,7 +10,9 @@ urlpatterns = [
     path('recent-sessions/', views.session_list, name='RecentSessions'),
     path('edit-session/<int:pk>/', views.edit_session, name='edit_session'),
     path("register/", views.register, name="register"),
+    path("profile_form/", views.profile_form, name="profile_form"),
     path("profile/", views.profile, name="profile"),
+    path("password/", views.change_password, name='change_password'),
     path("newbook/", views.new_book, name="new_book"),
     path("unapproved_books/", views.unapproved_books, name="unapproved_books"),
     path("approve_book/<int:pk>/", views.approve_book, name="approve_book"),

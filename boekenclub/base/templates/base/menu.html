@@ -33,6 +33,7 @@
                     Logout {{ user.username}}
                 </button>
             </form>
+            
          {% else %}
             <a href="{% url 'newsfeed' %}" class="nav-item">Newsfeed</a>
             <a href="{% url 'login' %}" class="nav-item">Login</a>

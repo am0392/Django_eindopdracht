@@ -7,6 +7,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.db import IntegrityError
+from .models import Profile
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Avg
 
 
@@ -37,6 +40,22 @@ def sessionform(request):
         form = ReadingSessionForm(initial=initial)
     return render(request, 'base/session.html', {'form': form})
 
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'base/change_password.html', {
+        'form': form
+    })
 
 def edit_session(request, pk):
     session = ReadingSession.objects.get(pk=pk)
@@ -73,9 +92,16 @@ def register(request):
         form = UserCreationForm()
     context = {"form": form}
     return render(request, "registration/register.html", context)
-
+ 
 @login_required
 def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    context = {"profile": profile}
+    return render(request, "base/profile.html", context)
+
+
+@login_required
+def profile_form(request):
     profile = request.user.profile
 
     if request.method == "POST":
@@ -87,7 +113,7 @@ def profile(request):
     else:
         form = ProfileForm(instance=profile)
 
-    return render(request, "base/profile.html", {"form": form})
+    return render(request, "base/profile_form.html", {"form": form})
 
 @login_required
 def new_book(request):
