@@ -3,16 +3,16 @@
 {% block content %}
     <h1>Unapproved books</h1>
     {% for book in books %}
-        <strong>Name: </strong> {{ book.Name }}<br>
+        <strong>Name: </strong> {{ book.name }}<br>
 
-        <strong>Publication year: </strong> {{ book.PublicationYear }}<br>
+        <strong>Publication year: </strong> {{ book.publication_year }}<br>
 
-        <strong>Genre: </strong> {{ book.Genre }}<br>
+        <strong>Genre: </strong> {{ book.genre }}<br>
 
         <a href="{% url 'approve_book' book.pk %}">Approve</a><br>
         <a href="{% url 'deny_book' book.pk %}">Deny</a><br><br>
 
-        
-
+    {% empty %}
+    <p>No unapproved books found.</p>
     {% endfor %}
 {% endblock content %} 

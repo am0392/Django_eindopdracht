@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<p><strong> City: </strong>{{ profile.City }}</p>
-<p><strong> Date of Birth: </strong>{{ profile.DateOfBirth }}</p>
-<p><strong> Favorite Genre: </strong>{{ profile.FavoriteGenre }}</p>
-<a href="{% url 'profile_form' %}"> edit </a><br>    
+<p><strong> City: </strong>{{ profile.city }}</p>
+<p><strong> Date of Birth: </strong>{{ profile.date_of_birth }}</p>
+<p><strong> Favorite Genre: </strong>{{ profile.favorite_genre }}</p>
+<a href="{% url 'profile_form' %}"> Edit </a><br>    
 <a href="{% url 'change_password' %}">Change password</a>
 {%endblock content%}

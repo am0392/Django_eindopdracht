@@ -6,9 +6,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Profile(models.Model):
-    FavoriteGenre = models.CharField(max_length=100)
-    DateOfBirth = models.DateField(null=True, blank=True)
-    City = models.CharField(max_length=100)
+    favorite_genre = models.CharField(max_length=100)
+    date_of_birth = models.DateField(null=True, blank=True)
+    city = models.CharField(max_length=100)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -16,28 +16,28 @@ class Profile(models.Model):
 
 
 class Book(models.Model):
-    Name = models.CharField(max_length=30, blank=False, unique=True)
-    PublicationYear = models.IntegerField(blank=False)
-    Genre = models.CharField(max_length=30, blank=True)
-    Approved = models.BooleanField(default=False)
-    ApprovedBy = models.ForeignKey(User, on_delete=models.CASCADE,
-                                    related_name='ApprovedBy', null=True, blank=True)
+    name = models.CharField(max_length=30, blank=False, unique=True)
+    publication_year = models.IntegerField(blank=False)
+    genre = models.CharField(max_length=30, blank=True)
+    approved = models.BooleanField(default=False)
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE,
+                                    related_name='approved_by', null=True, blank=True)
     def __str__(self):
-        return self.Name
+        return self.name
 
 
 class ReadingSession(models.Model):
-    Book = models.ForeignKey(
+    book = models.ForeignKey(
         Book, on_delete=models.CASCADE, null=False)
-    Date = models.DateField(blank=False,)
-    User = models.ForeignKey(User, on_delete=models.CASCADE)
-    Score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=False)
+    date = models.DateField(blank=False,)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=False)
     
     class Meta:
-        unique_together = ('Book', 'User', 'Date')
+        unique_together = ('book', 'user', 'date')
         
     def __str__(self):
-        return f"Book: {self.Book.Name}, Score: {self.Score}, Read by: {self.User.get_username()}"
+        return f"Book: {self.book.name}, Score: {self.score}, Read by: {self.user.get_username()}"
 
 
 @receiver(post_save, sender=User)

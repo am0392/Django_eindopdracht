@@ -7,14 +7,14 @@ from .models import Profile
 class ReadingSessionForm(forms.ModelForm):
     class Meta:
         model = ReadingSession
-        fields = ('Book', 'Date', 'Score')
+        fields = ('book', 'date', 'score')
         widgets = {
-            'Date': forms.DateInput(attrs={'type': 'date'}),
-            'Score': forms.NumberInput(attrs={'min': 1, 'max': 5}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'score': forms.NumberInput(attrs={'min': 1, 'max': 5}),
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['Book'].queryset = Book.objects.filter(Approved=True)
+        self.fields['book'].queryset = Book.objects.filter(approved=True)
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -24,12 +24,12 @@ class RegisterForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ("City", "DateOfBirth", "FavoriteGenre")
+        fields = ("city", "date_of_birth", "favorite_genre")
         widgets = {
-            "DateOfBirth": forms.DateInput(attrs={"type": "date"})
+            "date_of_birth": forms.DateInput(attrs={"type": "date"})
         }
 
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['Name', 'PublicationYear', 'Genre']
+        fields = ['name', 'publication_year', 'genre']

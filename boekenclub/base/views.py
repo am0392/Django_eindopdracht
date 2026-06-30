@@ -18,7 +18,7 @@ def index(request):
     return render(request, "base/index.html")
 
 def newsfeed(request):
-    sessions = ReadingSession.objects.all()
+    sessions = ReadingSession.objects.all().order_by('-date')
     context = {"sessions": sessions}
     return render(request, "base/newsfeed.html", context)
 
@@ -29,7 +29,7 @@ def sessionform(request):
         if form.is_valid():
             try:
                 session = form.save(commit=False)
-                session.User = request.user
+                session.user = request.user
                 session.save()
                 messages.success(request, 'Reading session added successfully.')
                 return redirect('RecentSessions')
@@ -37,11 +37,11 @@ def sessionform(request):
                 messages.error(request, 'You already have a reading session for this book on this date.')
     else:
         book_pk = request.GET.get('book')
-        initial = {'Book': book_pk} if book_pk else {}
+        initial = {'book': book_pk} if book_pk else {}
         form = ReadingSessionForm(initial=initial)
     return render(request, 'base/session.html', {'form': form})
 
-
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -58,6 +58,7 @@ def change_password(request):
         'form': form
     })
 
+@login_required
 def edit_session(request, pk):
     session = ReadingSession.objects.get(pk=pk)
     if request.method == 'POST':
@@ -75,8 +76,9 @@ def edit_session(request, pk):
     context = {'form': form, 'session': session, "edit": True}
     return render(request, 'base/reading_session_form.html', context)
 
+@login_required
 def session_list(request):
-    sessions = ReadingSession.objects.filter(User=request.user)
+    sessions = ReadingSession.objects.filter(user=request.user).order_by('-date')
     context = {"sessions": sessions}
     return render(request, "base/session_list.html", context)
 
@@ -123,8 +125,8 @@ def new_book(request):
         if form.is_valid():
             book = form.save(commit=False)
             if request.user.is_staff:
-                book.Approved = True
-                book.ApprovedBy = request.user
+                book.approved = True
+                book.approved_by = request.user
 
             book.save()
 
@@ -138,15 +140,15 @@ def new_book(request):
 
 @staff_member_required
 def unapproved_books(request):
-    books = Book.objects.filter(Approved=False)
+    books = Book.objects.filter(approved=False)
     context = {"books": books}
     return render(request, "base/unapproved_books.html", context)
 
 @staff_member_required
 def approve_book(request, pk):
     book = Book.objects.get(pk=pk)
-    book.Approved=True
-    book.ApprovedBy = request.user
+    book.approved=True
+    book.approved_by = request.user
     book.save()
     messages.success(request, "Book approved")
     return redirect("unapproved_books")
@@ -167,9 +169,9 @@ def delete_session(request, pk):
 
 def book_details(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    reading_sessions = ReadingSession.objects.filter(Book=book)
+    reading_sessions = ReadingSession.objects.filter(book=book)
     times_read = reading_sessions.count()
-    average_score = reading_sessions.aggregate(avg_score=Avg("Score"))["avg_score"]
+    average_score = reading_sessions.aggregate(avg_score=Avg("score"))["avg_score"]
     context = {
         "book": book,
         "times_read": times_read,
@@ -179,7 +181,7 @@ def book_details(request, pk):
 
 def user_sessions(request, user_id):
     profile_user = get_object_or_404(User, pk=user_id)
-    sessions = ReadingSession.objects.filter(User=profile_user)
+    sessions = ReadingSession.objects.filter(user=profile_user).order_by('-date')
     context = {
         "profile_user": profile_user,
         "sessions": sessions
