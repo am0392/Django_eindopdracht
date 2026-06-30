@@ -68,14 +68,10 @@ class Migration(migrations.Migration):
             old_name='User',
             new_name='user',
         ),
-        migrations.RemoveField(
+        migrations.RenameField(
             model_name='book',
-            name='ApprovedBy',
-        ),
-        migrations.AddField(
-            model_name='book',
-            name='approved_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='approved_by', to=settings.AUTH_USER_MODEL),
+            old_name='ApprovedBy',
+            new_name='approved_by',
         ),
         migrations.AlterUniqueTogether(
             name='readingsession',
