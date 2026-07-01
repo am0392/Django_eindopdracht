@@ -8,7 +8,7 @@
     {{ form.as_p }}
     <button type="submit" name="Save">Save</button>
     {% if edit %}
-        <button type="submit" name="Delete">Delete</button>
+       <button type="submit" name="Delete" value="Delete">Delete</button>
     {% endif %}
     <a href="{% url 'RecentSessions' %}">Cancel</a>
 </form>

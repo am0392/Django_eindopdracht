@@ -88,7 +88,6 @@ def register(request):
         form=UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # log the user in and redirect to index
             login(request, user)
             return redirect("index")
     else:

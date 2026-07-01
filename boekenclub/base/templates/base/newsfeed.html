@@ -11,7 +11,7 @@
         {% if user.is_staff %}
         <form action="{% url 'delete_session' session.pk %}" method="post">
             {% csrf_token %}
-            <button type="submit" name="Delete">Delete</button>
+            <button type="submit" name="Delete" value="Delete">Delete</button>
         </form>
         {% endif %}
     </div>
