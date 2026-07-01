@@ -68,9 +68,17 @@ def edit_session(request, pk):
             messages.success(request, "Session deleted")
             return redirect('RecentSessions')
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Reading session updated successfully.')
-            return redirect('RecentSessions')
+            duplicate = ReadingSession.objects.filter(
+                book=form.cleaned_data['book'],
+                user=request.user,
+                date=form.cleaned_data['date']
+            ).exclude(pk=session.pk).exists()
+            if duplicate:
+                form.add_error(None, "You already have a reading session for this book on this date.")
+            else:
+                form.save()
+                messages.success(request, 'Reading session updated successfully.')
+                return redirect('RecentSessions')
     else:
         form = ReadingSessionForm(instance=session)
     context = {'form': form, 'session': session, "edit": True}
